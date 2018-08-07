@@ -1,5 +1,6 @@
 # loading of libraries -----------------------------------------------------------
 library(data.table)
+library(chron)
 
 
 # proba 1 -----------------------------------------------------------
@@ -24,6 +25,14 @@ trips <- trips[,.SD[1],by=.(route_id,trip_headsign) ]
 # based on ListRoutes select rows from stop_times and replace table stop_times
 stop_times <- stop_times[trips[,.(trip_id)], on="trip_id"]
 
+# Create empty data table for the stop_times output
+Tstop_times <- setNames(data.table(matrix(nrow = 0, ncol = ncol(stop_times))), names(stop_times))
+
+
+
+
+# recalculate stop_times (start at 00:00:00)
+
 # create frequencies with predfined headway
 frequencies <- data.table(trip_id = trips$trip_id,
                           start_time = "06:00:00",
@@ -31,6 +40,9 @@ frequencies <- data.table(trip_id = trips$trip_id,
                           headway_secs = headway)
 # headway is no necessary any more so it's to be removed
 rm(headway)
+
+
+
 
 # create calendar table:
 calendar <- data.table(service_id = trips$service_id,
