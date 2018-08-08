@@ -1,0 +1,67 @@
+# GTFS_frequencies
+## This script presents a function to convert a set of original GTFS files into generic ones which simulates a ´full frequency´scenario.
+
+The script is intent to replace original frequency of public transport service by a generic one, which assumes ´full frequency´ (no waiting times in cases at public transort stops), keeping the original travel times between stops. It is prepared in order to investige impact of public transport´s routing scheme on accessibility level (regardless applied resources, i.e. real frequency). 
+
+The script is prepared within ´MSCA´ CAlCULUS project.
+`This project has received funding from the European Union’s Horizon 2020` 
+`research and innovation Programme under the Marie Sklodowska-Curie Grant Agreement no 749761.`
+
+### Load required files from the directory which contains oryginal GTFS files: 
+
+  a) files to be simplified:
+  - trips.txt
+  - stop_times.txt
+  b) files to be just copied to the final directory:
+  - agency.txt
+  - routes.txt
+  - stops.txt
+  c) generic files to be created for ´full frequency scenario´:
+  - calendar.txt
+  - frequencies.txt
+  Source https://developers.google.com/transit/gtfs/reference/
+
+### workflow
+
+1) load libraries
+
+2) simplify trips and stop_times: only one trip per route is selected, The rest are removed.
+
+3) recalculate arrival and departure times to start each trip at 00:00:00
+
+4) create calendar and frequencies files
+
+5) create a destination sub-directory for the output
+
+6) clean the RStudio environment
+
+### required libraries:
+
+```{}
+library(data.table)
+library(chron)
+library(lubridate)
+```
+
+### input to be specified:
+
+- `dir_GTFS`: directory where original GTFS files are stored. 
+- `dir_final`: directory where modified GTFS files will be saved.
+- `headway`: generic frequency of service; default: `60` seconds
+- `GenericDate`: generic date of the service (only one day); default: `"20180515"`.
+- `Threshold`: the time converage of a generic GTFS full frequency scenario. Depends on the size of the area or applied threshold for OD matrix (maximum considered travel time); default: `120`.
+
+### output
+- set of generic GTFS files.
+
+### function syntax:
+
+```{}
+FullFrequency_GTFS(dir_GTFS, dir_final, headway = 60, GenericDate =  "20180515", Threshold = 120)
+```
+
+### variables used for testing
+```{}
+DirLoc <- "../DATA/Data_GTFS/Data_GTFS_oryg/google_transit_M10"
+DirFinal <- "../DATA/Data_GTFS/Data_GTFS_FullFreq/google_transit_M10"
+```

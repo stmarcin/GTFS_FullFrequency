@@ -1,20 +1,13 @@
-# loading of libraries -----------------------------------------------------------
-library(data.table)
-library(chron)
-library(lubridate)
 
-
-# define location of original directory of GTFS files, headway ----
-DirLoc <- "../DATA/Data_GTFS/Data_GTFS_oryg/google_transit_M10"
-DirFinal <- "../DATA/Data_GTFS/Data_GTFS_FullFreq/google_transit_M10"
-headway = 60 # przy przerabianiu na funkcje - ustawic 60 jako domyslna wartosc
-GenericDate = "20180515" # przy przerabianiu na funkcje - ustawic jako domyslna wartosc
-
-Threshold = 120 # przy przerabianiu na funkcje - ustawic jako domyslna wartosc
 
 FullFrequency_GTFS <- function(dir_GTFS, dir_final, headway = 60, GenericDate =  "20180515", Threshold = 120){
+
+  # 1) load libraries -----------------------------------------------------------
+  library(data.table)
+  library(chron)
+  library(lubridate)
   
-  # open and simplify required files: trips, stop_times ----
+  # 2) open and simplify required files: trips, stop_times ----
   trips <- fread(paste(dir_GTFS, "trips.txt", sep = "/"))
   stop_times <- fread(paste(dir_GTFS, "stop_times.txt", sep = "/"))
   
@@ -25,7 +18,7 @@ FullFrequency_GTFS <- function(dir_GTFS, dir_final, headway = 60, GenericDate = 
   # based on ListRoutes select rows from stop_times and replace table stop_times
   stop_times <- stop_times[trips[,.(trip_id)], on="trip_id"]
   
-  # recalculate arrival and departure times (starting from 00:00:00) ----
+  # 3) recalculate arrival and departure times (starting from 00:00:00) ----
   
   # Create empty data table for the stop_times output
   Tstop_times <- setNames(data.table(matrix(nrow = 0, ncol = ncol(stop_times))), names(stop_times))
@@ -67,7 +60,7 @@ FullFrequency_GTFS <- function(dir_GTFS, dir_final, headway = 60, GenericDate = 
   stop_times <- Tstop_times
   rm(i, TempST, trip, Tstop_times)  
   
-  # create calendar and frequencies files ----
+  # 4) create calendar and frequencies files ----
   # create frequencies with predfined headway
   frequencies <- data.table(trip_id = trips$trip_id,
                             start_time = "00:00:00",
@@ -88,7 +81,7 @@ FullFrequency_GTFS <- function(dir_GTFS, dir_final, headway = 60, GenericDate = 
                          start_date = GenericDate,
                          end_date = format(ymd(GenericDate)+ddays(1), "%Y%m%d"))
   
-  # save output ----
+  # 5) save output ----
   # create the directory for the output
   dir.create(dir_final)
   
@@ -106,7 +99,7 @@ FullFrequency_GTFS <- function(dir_GTFS, dir_final, headway = 60, GenericDate = 
     fwrite(Temp, paste(dir_final, paste(file_GTFS, "txt", sep="."), sep = "/"))
   }
   
-  # remove the rest of files
+  # 6) clean environment
   rm(list=ls(all=TRUE))
 
 }
