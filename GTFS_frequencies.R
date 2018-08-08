@@ -8,11 +8,9 @@ library(lubridate)
 DirLoc <- "../DATA/Data_GTFS/Data_GTFS_oryg/google_transit_M10"
 DirFinal <- "../DATA/Data_GTFS/Data_GTFS_FullFreq/google_transit_M10"
 headway = 60 # przy przerabianiu na funkcje - ustawic 60 jako domyslna wartosc
-# GenericDate = 
+GenericDate = "20180515" # przy przerabianiu na funkcje - ustawic jako domyslna wartosc
 
-StartDate = "20170101" # przy przerabianiu na funkcje - ustawic jako domyslna wartosc
-EndDate =  "20181231" # przy przerabianiu na funkcje - ustawic jako domyslna wartosc
-StartTime = "00:00:00"
+Threshold = 120 # przy przerabianiu na funkcje - ustawic jako domyslna wartosc
 
 # open and simplify required files: trips, stop_times ----
 trips <- fread(paste(DirLoc, "trips.txt", sep = "/"))
@@ -70,8 +68,8 @@ rm(i, TempST, trip, Tstop_times)
 # create calendar and frequencies files ----
 # create frequencies with predfined headway
 frequencies <- data.table(trip_id = trips$trip_id,
-                          start_time = StartTime,
-                          end_time = "10:00:00",
+                          start_time = "00:00:00",
+                          end_time = as.character(times("00:00:00") + Threshold/24/60),
                           headway_secs = headway)
 # headway is no necessary any more so it's to be removed
 rm(headway)
@@ -85,10 +83,8 @@ calendar <- data.table(service_id = trips$service_id,
                        friday = "1",
                        saturday = "1",
                        sunday = "1",
-                       start_date = StartDate,
-                       end_date = EndDate)
-# remove Start and End Date as they are no necessary any more
-rm(StartDate, EndDate)
+                       start_date = GenericDate,
+                       end_date = format(ymd(GenericDate)+ddays(1), "%Y%m%d"))
 
 # save output ----
 # create the directory for the output
@@ -107,7 +103,6 @@ for(file_GTFS in list_GTFS){
   Temp <- fread(paste(DirLoc, paste(file_GTFS, "txt", sep="."), sep = "/"))
   fwrite(Temp, paste(DirFinal, paste(file_GTFS, "txt", sep="."), sep = "/"))
 }
-rm(list_GTFS, file_GTFS, Temp)
 
 # remove the rest of files
 rm(list=ls(all=TRUE))
