@@ -6,7 +6,7 @@ library(lubridate)
 
 # define location of original directory of GTFS files, headway ----
 DirLoc <- "../DATA/Data_GTFS/Data_GTFS_oryg/google_transit_M10"
-DirFinal <- "../DATA/Data_GTFS/Data_GTFS_FullFreq2/google_transit_M10"
+DirFinal <- "../DATA/Data_GTFS/Data_GTFS_FullFreq/google_transit_M10"
 headway = 60 # przy przerabianiu na funkcje - ustawic 60 jako domyslna wartosc
 # GenericDate = 
 
