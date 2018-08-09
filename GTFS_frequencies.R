@@ -27,15 +27,23 @@ FullFrequency_GTFS <- function(dir_GTFS, dir_final, headway = 60, GenericDate = 
     # select stop.times of selected trip:
     TempST <- stop_times[trip_id == trip]
     
+    # in case of arrival / departure time formatted as: "24:MM:SS" (H >= 24) - add +1 day and substract 24 hours
+    TempST[, c("aday", "dday") := list(ifelse(substr(arrival_time,1,2) < 24, 0, 1), ifelse(substr(departure_time,1,2) < 24, 0, 1))]
+    
+    TempST[, c("arrival_time", "departure_time") := 
+             list(ifelse(substr(arrival_time,1,2) < 24, arrival_time, 
+                         paste(paste("0", as.numeric(substr(arrival_time,1,2))-24, sep=""), substr(arrival_time,3,8), sep="")), 
+                  ifelse(substr(departure_time,1,2) < 24, departure_time,
+                         paste(paste("0", as.numeric(substr(departure_time,1,2))-24, sep=""), substr(departure_time,3,8), sep="")))]
+    
+    
     # calculate stop time (difference between arrival and departure time):
-    TempST[,stop_time := chron(times = format(ymd("2017-01-01", tz = "UTC")+
-                                                as.duration(as.POSIXct(departure_time, format='%H:%M:%S') - 
-                                                              as.POSIXct(arrival_time, format='%H:%M:%S')), "%H:%M:%S"))]
+    TempST[, stop_time := chron(times = chron(times = arrival_time) + aday - (chron(times = departure_time) + dday))]
     
     # calculate travel time from previous to the given stop
-    TempST[, travel_time := chron(times = format(ymd("2017-01-01", tz = "UTC")+
-                                                   as.duration(as.POSIXct(departure_time, format='%H:%M:%S') - 
-                                                                 as.POSIXct(shift(departure_time), format='%H:%M:%S')), "%H:%M:%S"))]
+    TempST[, travel_time := 
+             chron(times = chron(times = arrival_time) + aday - (chron(times = shift(departure_time)) + shift(dday))) ]
+
     # calculate arrival and departure times for the first stop (00:00:00)
     TempST[stop_sequence == 0, atime := chron(times = "00:00:00")]
     TempST[stop_sequence == 0, dtime := chron(times = atime + stop_time)]

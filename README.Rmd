@@ -1,13 +1,13 @@
 # GTFS_frequencies
-## This script presents a function to convert a set of original GTFS files into generic ones which simulates a ´full frequency´scenario.
+## Introduction
+This script presents a function to convert a set of original GTFS files into generic ones which simulates a ´full frequency´scenario.
 
-The script is intent to replace original frequency of public transport service by a generic one, which assumes ´full frequency´ (no waiting times in cases at public transort stops), keeping the original travel times between stops. It is prepared in order to investige impact of public transport´s routing scheme on accessibility level (regardless applied resources, i.e. real frequency). 
+The script is intent to replace original frequency of public transport service by a generic one, which assumes ´full frequency´ (no waiting times at public transort stops), keeping the original travel times between stops. It is prepared in order to investige impact of public transport´s routing scheme on accessibility level (regardless applied resources, i.e. real frequency). 
 
 The script is prepared within ´MSCA´ CAlCULUS project.
-`This project has received funding from the European Union’s Horizon 2020` 
-`research and innovation Programme under the Marie Sklodowska-Curie Grant Agreement no 749761.`
 
-### Load required files from the directory which contains oryginal GTFS files: 
+## Detailed description
+### Required GTFS files: 
 
   a) files to be simplified:
   - trips.txt
@@ -21,7 +21,7 @@ The script is prepared within ´MSCA´ CAlCULUS project.
   - frequencies.txt
   Source https://developers.google.com/transit/gtfs/reference/
 
-### workflow
+### Workflow
 
 1) load libraries
 
@@ -35,7 +35,7 @@ The script is prepared within ´MSCA´ CAlCULUS project.
 
 6) clean the RStudio environment
 
-### required libraries:
+### Required libraries:
 
 ```{}
 library(data.table)
@@ -43,7 +43,7 @@ library(chron)
 library(lubridate)
 ```
 
-### input to be specified:
+### Input to be specified:
 
 - `dir_GTFS`: directory where original GTFS files are stored. 
 - `dir_final`: directory where modified GTFS files will be saved.
@@ -51,17 +51,25 @@ library(lubridate)
 - `GenericDate`: generic date of the service (only one day); default: `"20180515"`.
 - `Threshold`: the time converage of a generic GTFS full frequency scenario. Depends on the size of the area or applied threshold for OD matrix (maximum considered travel time); default: `120`.
 
-### output
+### Output
 - set of generic GTFS files.
 
-### function syntax:
+### Fsunction syntax:
 
 ```{}
 FullFrequency_GTFS(dir_GTFS, dir_final, headway = 60, GenericDate =  "20180515", Threshold = 120)
 ```
 
-### variables used for testing
-```{}
-DirLoc <- "../DATA/Data_GTFS/Data_GTFS_oryg/google_transit_M10"
-DirFinal <- "../DATA/Data_GTFS/Data_GTFS_FullFreq/google_transit_M10"
-```
+### Applicaiton
+The script was tested on GTFS Madrid´s data (source: `http://data-crtm.opendata.arcgis.com`).
+
+`GTFS_frequencies_apply.R` was used to move through all folders (each folder contains GTFS data for one transport mode)
+
+### Updates
+2018-08-09: solved problem with arrival / departure times coded as "24:MM:SS" (HH >= 24)
+
+### Funding statement
+
+This project has received funding from the European Union’s Horizon 2020
+research and innovation Programme under the Marie Sklodowska-Curie Grant Agreement no 749761.
+
