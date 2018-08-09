@@ -60,7 +60,7 @@ FullFrequency_GTFS <- function(dir_GTFS, dir_final, headway = 60, GenericDate = 
     
     # convert calculated columns and combine results
     TempST[, c("arrival_time", "departure_time") := list(as.character(atime), as.character(dtime))]
-    Tstop_times <- rbind(Tstop_times, TempST[,-c("atime","dtime", "stop_time", "travel_time"), with=F])
+    Tstop_times <- rbind(Tstop_times, TempST[,-c("atime","dtime", "stop_time", "travel_time", "aday", "dday"), with=F])
     
   }  
   
