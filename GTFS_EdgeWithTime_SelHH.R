@@ -1,6 +1,6 @@
 
 
-GTFS_EdgeWithTime <- function(dir_GTFS, dir_final, HHstart = 06, HHend=14, output = "shp"){
+GTFS_EdgeWithTime_SelHH <- function(dir_GTFS, dir_final, HHstart = 06, HHend=14, output = "shp"){
   
 
     # 1) load libraries -----------------------------------------------------------
