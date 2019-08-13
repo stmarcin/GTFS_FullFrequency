@@ -6,7 +6,22 @@ This repo consists of two scipts:
 
 [Updates](#Updates) of this repo can be found at the end of this documents. The repo is prepared within MSCA CAlCULUS project (see [Funding Statement](#Funding)).
 
-## GTFS_FullFrequency {#FullFrequency}
+
+### Table of Contents
+[**script GTFS_FullFrequency**](#gtfs_fullfrequency)<br>
+[Introduction](#introduction)<br>
+[Required GTFS files](#required-gtfs-files)<br>
+[Workflow](#workflow)<br>
+[Detailed description](#detailed-description)<br>
+[**script GTFS_EdgeWithTime**](#gtfs_edgewithtime)<br>
+[Introduction](#introduction-2)<br>
+[Required GTFS files](#required-gtfs-files-2)<br>
+[Workflow](#workflow-2)<br>
+[Detailed description](#detailed-description-2)<br>
+[**Updates**](#updates)<br>
+[Funding statement](#funding-statement)<br>
+
+## GTFS_FullFrequency
 
 ### Introduction
 This script presents a function to convert a set of original GTFS files into generic ones which simulates a scenario with user-defined frequency of public transport system.
@@ -14,8 +29,7 @@ This script presents a function to convert a set of original GTFS files into gen
 The script is intent to replace original frequency of public transport service by a generic one (user-defined maximum waiting times at public transort stops), keeping the original travel times between stops. It is prepared in order to investige impact of public transport´s routing scheme on accessibility level (regardless applied resources, i.e. real frequency). 
 
 
-### Detailed description
-#### Required GTFS files: 
+### Required GTFS files  
 
   a) files to be simplified:
     - trips.txt
@@ -30,7 +44,7 @@ The script is intent to replace original frequency of public transport service b
   
   Source https://developers.google.com/transit/gtfs/reference/
 
-#### Workflow
+### Workflow
 
 1) load libraries
 
@@ -43,6 +57,8 @@ The script is intent to replace original frequency of public transport service b
 5) create a destination sub-directory for the output
 
 6) clean the RStudio environment
+
+### Detailed description
 
 #### Required libraries:
 
@@ -74,10 +90,11 @@ The script was tested on GTFS Madrid´s data (source: `http://data-crtm.opendata
 
 `GTFS_frequencies_apply.R` was used to move through all folders (each folder contains GTFS data for one transport mode)
 
+<a href="#top">**Back to top**</a>
 
-## GTFS_EdgeWithTime {#EdgeWithTime}
+## GTFS_EdgeWithTime
 
-### Introduction
+### Introduction{#introduction-2}
 This script presents a function which uses orginal GFTS datasets to extracts edges between stops adding to them variable that contains travel time (minimum taken from origin stop_times.txt file). The output may be saved as `edges.txt`, `edges.shp` or both. `edges.shp` may be then used in ArcGIS network data set in order to built simplified public transport model which ingnores waiting times (frequency or exact arrival / departure times) using a simplified travel speeds (no congestion as the minimum travel time is used), i.e. the intermediate model between *intermediate PT* and *advanced PT* models defined by [Salonen & Toivonen, 2013](http://www.sciencedirect.com/science/article/pii/S096669231300121X).
 
 There are two versions of the script:
@@ -85,13 +102,12 @@ There are two versions of the script:
 * `GTFS_EdgeWithTime_AllDay.R` - the one which automatically generate trips for the whole day (24 hours). Due to further limitations it is **not recommended** (eg. in ArcGIS Network dataset it built too large database).
 * `GTFS_EdgeWithTime_SelHH.R` - the one which enable for user-defined time range (start and end hours)
 
-### Detailed description
-#### Required GTFS files: 
+### Required GTFS files{#required-gtfs-files-2}
 
   - stop_times.txt
   - stops.txt
 
-#### Workflow
+### Workflow{#workflow-2}
 
 1) load libraries
 
@@ -106,6 +122,9 @@ There are two versions of the script:
     +  (optional) save output as `edges.txt`;
     
 4) (optional) create spatial representation and save output as `edges.shp`.
+
+
+### Detailed description{#detailed-description-2}
 
 #### Required libraries:
 
@@ -153,16 +172,22 @@ The script was tested on GTFS Madrid´s data (source: `http://data-crtm.opendata
 
 `GTFS_EdgeWithTime_SelHH_apply.R` and `GTFS_EdgeWithTime_AllDay_apply.R` were used to move through all folders (each folder contains GTFS data for one transport mode).
 
+<a href="#top">**Back to top**</a>
 
-## Updates {#Updates}
+## Updates
 2018-08-09: solved problem with arrival / departure times coded as "24:MM:SS" (HH >= 24).
 
 2018-09-16: new script added (GTFS_EdgeWithTime.R) & update of README file.
 
 2018-09-26: new scripts were added (GTFS_EdgeWithTime_SelHH and GTFS_EdgeWithTime_AllDay.R - the latter is to replace GTFS_EdgeWithTime.R).
 
-## Funding statement {#Funding}
+<a href="#top">**Back to top**</a>
 
-This project has received funding from the European Union’s Horizon 2020
-research and innovation Programme under the Marie Sklodowska-Curie Grant Agreement no 749761.
+## Funding statement
 
+This document is created within the **MSCA CAlCULUS** project.  
+
+*This project has received funding from the European Union's Horizon 2020 research and innovation Programme under the Marie Sklodowska-Curie Grant Agreement no. 749761.*  
+*The views and opinions expressed herein do not necessarily reflect those of the European Commission.*
+
+<a href="#top">**Back to top**</a>
