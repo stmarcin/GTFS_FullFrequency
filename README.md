@@ -12,15 +12,7 @@ This repo consists of two scipts:
 
 ### Table of Contents
 [**script GTFS_FullFrequency**](#gtfs_fullfrequency)<br>
-[Introduction](#introduction)<br>
-[Required GTFS files](#required-gtfs-files)<br>
-[Workflow](#workflow)<br>
-[Detailed description](#detailed-description)<br>
 [**script GTFS_EdgeWithTime**](#gtfs_edgewithtime)<br>
-[Introduction](#introduction-2)<br>
-[Required GTFS files](#required-gtfs-files-2)<br>
-[Workflow](#workflow-2)<br>
-[Detailed description](#detailed-description-2)<br>
 [**Updates**](#updates)<br>
 [Funding statement](#funding-statement)<br>
 
@@ -97,7 +89,7 @@ The script was tested on GTFS Madrid´s data (source: `http://data-crtm.opendata
 
 ## GTFS_EdgeWithTime
 
-### Introduction{#introduction-2}
+### Introduction
 This script presents a function which uses orginal GFTS datasets to extracts edges between stops adding to them variable that contains travel time (minimum taken from origin stop_times.txt file). The output may be saved as `edges.txt`, `edges.shp` or both. `edges.shp` may be then used in ArcGIS network data set in order to built simplified public transport model which ingnores waiting times (frequency or exact arrival / departure times) using a simplified travel speeds (no congestion as the minimum travel time is used), i.e. the intermediate model between *intermediate PT* and *advanced PT* models defined by [Salonen & Toivonen, 2013](http://www.sciencedirect.com/science/article/pii/S096669231300121X).
 
 There are two versions of the script:
@@ -105,12 +97,12 @@ There are two versions of the script:
 * `GTFS_EdgeWithTime_AllDay.R` - the one which automatically generate trips for the whole day (24 hours). Due to further limitations it is **not recommended** (eg. in ArcGIS Network dataset it built too large database).
 * `GTFS_EdgeWithTime_SelHH.R` - the one which enable for user-defined time range (start and end hours)
 
-### Required GTFS files{#required-gtfs-files-2}
+### Required GTFS files
 
   - stop_times.txt
   - stops.txt
 
-### Workflow{#workflow-2}
+### Workflow
 
 1) load libraries
 
@@ -127,7 +119,7 @@ There are two versions of the script:
 4) (optional) create spatial representation and save output as `edges.shp`.
 
 
-### Detailed description{#detailed-description-2}
+### Detailed description
 
 #### Required libraries:
 
