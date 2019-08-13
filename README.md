@@ -177,6 +177,10 @@ The script was tested on GTFS Madrid´s data (source: `http://data-crtm.opendata
 
 <a href="#top">**Back to top**</a>
 
+#### Licence
+
+License for files: CC-BY-4.0
+
 ## Funding statement
 
 This document is created within the **MSCA CAlCULUS** project.  
