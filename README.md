@@ -19,7 +19,6 @@ This repo consists of two scipts:
 ## GTFS_FullFrequency
 
 ### Introduction
-This script presents a function to convert a set of original GTFS files into generic ones which simulates a scenario with user-defined frequency of public transport system.
 
 The script is intent to replace original frequency of public transport service by a generic one (user-defined maximum waiting times at public transort stops), keeping the original travel times between stops. It is prepared in order to investige impact of public transport´s routing scheme on accessibility level (regardless applied resources, i.e. real frequency). 
 
